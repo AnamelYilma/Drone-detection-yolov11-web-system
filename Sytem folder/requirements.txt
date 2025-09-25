@@ -1,0 +1,9 @@
+Flask
+torch
+torchvision
+ultralytics
+opencv-python
+numpy
+Pillow
+pygame
+werkzeug

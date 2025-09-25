@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAVE - Drone Detection System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">Drone detection system</div>
+                <div class="subtitle">The Nural NInja</div>
+            </div>
+            <div class="status-bar">
+                <div class="status-item">
+                    <i class="fas fa-satellite-dish"></i>
+                    <span id="connection-status">CONNECTED</span>
+                </div>
+                <div class="status-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span id="system-status">ACTIVE</span>
+                </div>
+                <div class="status-item">
+                    <i class="fas fa-clock"></i>
+                    <span id="current-time"></span>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="detection-panel">
+                <div class="panel-header">
+                    <h2>DRONE DETECTION FEED</h2>
+                    <div class="panel-controls">
+                        <button id="start-camera-btn" class="btn military-btn">
+                            <i class="fas fa-video"></i> START CAMERA
+                        </button>
+                        <button id="stop-camera-btn" class="btn military-btn">
+                            <i class="fas fa-stop"></i> STOP CAMERA
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="feed-container">
+                    <img id="video-feed" src="{{ url_for('static', filename='img/placeholder.jpg') }}" alt="Detection Feed">
+                    <div id="detection-overlay" class="detection-overlay" style="display: none;">
+                        <div class="detection-indicator" id="detection-indicator">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>NO DRONE DETECTED</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="feed-controls">
+                    <div class="upload-section">
+                        <div class="upload-box">
+                            <label for="image-upload" class="upload-label">
+                                <i class="fas fa-image"></i> UPLOAD IMAGE
+                            </label>
+                            <input type="file" id="image-upload" accept="image/*">
+                        </div>
+                        
+                        <div class="upload-box">
+                            <label for="video-upload" class="upload-label">
+                                <i class="fas fa-file-video"></i> UPLOAD VIDEO
+                            </label>
+                            <input type="file" id="video-upload" accept="video/*">
+                        </div>
+                    </div>
+                    
+                    <div class="alarm-control">
+                        <button id="stop-alarm-btn" class="btn alarm-btn">
+                            <i class="fas fa-volume-mute"></i> STOP ALARM
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-panel">
+                <div class="panel-header">
+                    <h2>DETECTION LOG</h2>
+                </div>
+                
+                <div class="log-container">
+                    <div class="log-entry">
+                        <div class="log-time">12:34:56</div>
+                        <div class="log-message">System initialized</div>
+                    </div>
+                    <div class="log-entry">
+                        <div class="log-time">12:35:02</div>
+                        <div class="log-message">Camera feed activated</div>
+                    </div>
+                    <div class="log-entry">
+                        <div class="log-time">12:35:15</div>
+                        <div class="log-message">Scanning sector 7</div>
+                    </div>
+                </div>
+                
+                <div class="stats-container">
+                    <div class="stat-box">
+                        <div class="stat-title">DETECTIONS TODAY</div>
+                        <div class="stat-value" id="detection-count">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-title">SYSTEM UPTIME</div>
+                        <div class="stat-value" id="uptime">00:00:00</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-title">THREAT LEVEL</div>
+                        <div class="stat-value" id="threat-level">LOW</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Image and Video Results Section -->
+        <div class="results-section">
+            <div class="result-panel">
+                <div class="panel-header">
+                    <h2>IMAGE ANALYSIS</h2>
+                    <div class="panel-controls">
+                        <button id="download-image-btn" class="btn military-btn" style="display: none;">
+                            <i class="fas fa-download"></i> DOWNLOAD RESULT
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="result-container">
+                    <div id="image-result-placeholder" class="result-placeholder">
+                        <i class="fas fa-image"></i>
+                        <p>Upload an image for analysis</p>
+                    </div>
+                    <img id="image-result" src="" alt="Image Analysis Result" style="display: none;">
+                </div>
+                
+                <div class="detection-status">
+                    <div id="image-detection-status" class="status-indicator no-detection">
+                        <i class="fas fa-search"></i>
+                        <span>No Image Analyzed</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="result-panel">
+                <div class="panel-header">
+                    <h2>VIDEO ANALYSIS</h2>
+                    <div class="panel-controls">
+                        <button id="download-video-btn" class="btn military-btn" style="display: none;">
+                            <i class="fas fa-download"></i> DOWNLOAD RESULT
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="result-container">
+                    <div id="video-result-placeholder" class="result-placeholder">
+                        <i class="fas fa-file-video"></i>
+                        <p>Upload a video for analysis</p>
+                    </div>
+                    <video id="video-result" controls style="display: none;">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                
+                <div class="detection-status">
+                    <div id="video-detection-status" class="status-indicator no-detection">
+                        <i class="fas fa-search"></i>
+                        <span>No Video Analyzed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="footer-info">
+                <div class="footer-section">
+                    <h3>SYSTEM STATUS</h3>
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <span class="status-label">Detection:</span>
+                            <span class="status-value" id="detection-status">ACTIVE</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Camera:</span>
+                            <span class="status-value" id="camera-status">OFFLINE</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Alarm:</span>
+                            <span class="status-value" id="alarm-status">STANDBY</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>SYSTEM INFO</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Version:</span>
+                            <span class="info-value">v1.0.0</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Model:</span>
+                            <span class="info-value">YOLOv11</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Accuracy:</span>
+                            <span class="info-value">94.7%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                © 2023 WAVE DRONE DETECTION SYSTEM | CLASSIFIED
+            </div>
+        </footer>
+    </div>
+
+    <script src="../static/js/script.js"></script>
+</body>
+</html>
