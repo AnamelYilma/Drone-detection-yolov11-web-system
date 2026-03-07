@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 addLogEntry('Camera feed deactivated');
                 
                 // Reset to placeholder image
-                videoFeed.src = "{{ url_for('static', filename='img/placeholder.jpg') }}";
+                videoFeed.src = "/static/img/placeholder.jpg";
                 detectionOverlay.style.display = 'none';
             }
         })
@@ -119,6 +119,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 detectionIndicator.classList.remove('drone-detected');
                 detectionIndicator.classList.add('no-drone');
                 detectionIndicator.innerHTML = '<i class="fas fa-exclamation-triangle"></i><span>NO DRONE DETECTED</span>';
+                detectionOverlay.style.display = 'none';
+                threatLevel.textContent = 'LOW';
+                threatLevel.style.color = '';
                 addLogEntry('Alarm deactivated by user');
             }
         })
@@ -241,6 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
         detectionIndicator.classList.remove('no-drone');
         detectionIndicator.classList.add('drone-detected');
         detectionIndicator.innerHTML = '<i class="fas fa-exclamation-triangle"></i><span>DRONE DETECTED</span>';
+        detectionOverlay.style.display = 'flex';
         threatLevel.textContent = 'HIGH';
         threatLevel.style.color = 'var(--danger-color)';
         addLogEntry('ALARM: Drone detected');
