@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, jsonify, Response, send_file,
 from werkzeug.utils import secure_filename
 from detector import DroneDetector
 from alarm import AlarmSystem
-
+#--------------
 app = Flask(__name__)
 
 # Define folders
