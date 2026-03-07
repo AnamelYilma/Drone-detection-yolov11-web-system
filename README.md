@@ -1,11 +1,11 @@
-## WAVE Drone Detection Web System (Yolov11)
+# WAVE Drone Detection Web System (Yolov11)
 
 Cyber‑military themed web app that spots drones in live camera feeds, uploaded images, or videos using a YOLOv11 model trained on a custom Roboflow dataset (~150 labeled images). Even with a short 15‑epoch training budget, the model delivers strong accuracy and clean bounding‑box overlays.
 
-## View
-# From Live Camera
+# View
+## From Live Camera
 <img width="1730" height="821" alt="image" src="https://github.com/user-attachments/assets/f15c1f93-3b3a-45a2-818b-f850c3812148" />
-# From Uploaded Image
+## From Uploaded Image
 <img width="1836" height="814" alt="image" src="https://github.com/user-attachments/assets/5545d7ca-bfc1-416f-b927-765fcbb4caf0" />
 
 
